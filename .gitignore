@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Secrets — never commit
+.env
+.dvc/config.local
+
+# MLflow local store
+mlruns/
+mlartifacts/
+mlflow.db
+
+# Data and models are tracked by DVC, not Git
+data/raw/*.csv
+/data/processed/
+/models/

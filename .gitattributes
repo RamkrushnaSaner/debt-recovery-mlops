@@ -1,0 +1,3 @@
+# Store and check out text files with LF on every OS.
+# DVC hashes file bytes: a CRLF copy of src/*.py on Windows would look "changed" in CI.
+* text=auto eol=lf
