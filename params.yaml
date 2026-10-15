@@ -1,0 +1,12 @@
+data:
+  raw_path: data/raw/bank_data.csv
+policy:
+  threshold: 1000           # expected_recovery_amount at which extra effort starts
+  bandwidth: 150            # analyse customers within threshold ± bandwidth
+  extra_cost: 150           # cost of the extra recovery effort per customer ($)
+mlflow:
+  experiment_name: recovery-threshold
+gate:
+  max_p_value: 0.05         # the jump at the threshold must be significant
+  min_roi: 0.0              # the extra effort must pay for itself
+  min_balance_p: 0.05       # age/sex must NOT differ across the threshold
