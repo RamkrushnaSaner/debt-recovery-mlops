@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import tempfile
 from pathlib import Path
 
 import mlflow
@@ -37,7 +38,10 @@ def main() -> None:
         mlflow.log_metrics({f"train_{k}": v for k, v in train_metrics.items()})
         # Link this run to the exact data version DVC tracks
         mlflow.set_tag("data_md5", hashlib.md5(Path(DATA).read_bytes()).hexdigest())
-        mlflow.statsmodels.log_model(sm.load("models/ols_model.pkl"), name="model")
+        # Store the model files inside the run (works on any MLflow server, DagsHub included)
+        with tempfile.TemporaryDirectory() as tmp:
+            mlflow.statsmodels.save_model(sm.load("models/ols_model.pkl"), f"{tmp}/model")
+            mlflow.log_artifacts(f"{tmp}/model", artifact_path="model")
         mlflow.log_artifact("metrics/policy.json")
 
     print(json.dumps(policy, indent=2))
